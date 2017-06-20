@@ -33,6 +33,12 @@ module.exports = (send) => {
       }
 
       function prepare () {
+        if (format === 'json') {
+          format = 'cbor'
+          inputEnc = 'json'
+
+          finalize(null, new Buffer(JSON.stringify(dagNode)))
+        }
         if (format === 'dag-cbor') {
           // TODO change this once
           // https://github.com/ipfs/go-ipfs/issues/3771 is finished
