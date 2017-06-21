@@ -15,7 +15,7 @@
     "test:browser": "gulp test:browser",
     "lint": "aegir-lint",
     "build": "gulp build",
-    "prepack": "gulp build",
+    "prepare": "gulp build",
     "release": "gulp release",
     "release-minor": "gulp release --type minor",
     "release-major": "gulp release --type major",
