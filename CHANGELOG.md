@@ -1,3 +1,79 @@
+<a name="14.1.2"></a>
+## [14.1.2](https://github.com/ipfs/js-ipfs-api/compare/v14.1.1...v14.1.2) (2017-08-06)
+
+
+
+<a name="14.1.1"></a>
+## [14.1.1](https://github.com/ipfs/js-ipfs-api/compare/v14.1.0...v14.1.1) (2017-07-26)
+
+
+### Bug Fixes
+
+* [#572](https://github.com/ipfs/js-ipfs-api/issues/572) ([3354901](https://github.com/ipfs/js-ipfs-api/commit/3354901))
+
+
+
+<a name="14.1.0"></a>
+# [14.1.0](https://github.com/ipfs/js-ipfs-api/compare/v14.0.4...v14.1.0) (2017-07-22)
+
+
+### Bug Fixes
+
+* circle ci, thanks victor! ([88b6705](https://github.com/ipfs/js-ipfs-api/commit/88b6705))
+
+
+
+<a name="14.0.4"></a>
+## [14.0.4](https://github.com/ipfs/js-ipfs-api/compare/v14.0.3...v14.0.4) (2017-06-21)
+
+
+### Bug Fixes
+
+* don't let qs mangle binary buffers ([#569](https://github.com/ipfs/js-ipfs-api/issues/569)) ([#570](https://github.com/ipfs/js-ipfs-api/issues/570)) ([6cbd89c](https://github.com/ipfs/js-ipfs-api/commit/6cbd89c))
+
+
+
+<a name="14.0.3"></a>
+## [14.0.3](https://github.com/ipfs/js-ipfs-api/compare/v14.0.2...v14.0.3) (2017-05-29)
+
+
+
+<a name="14.0.2"></a>
+## [14.0.2](https://github.com/ipfs/js-ipfs-api/compare/v14.0.1...v14.0.2) (2017-05-19)
+
+
+### Features
+
+* Use CID for api.get/api.cat ([#555](https://github.com/ipfs/js-ipfs-api/issues/555)) ([da7d0f4](https://github.com/ipfs/js-ipfs-api/commit/da7d0f4))
+
+
+
+<a name="14.0.1"></a>
+## [14.0.1](https://github.com/ipfs/js-ipfs-api/compare/v14.0.0...v14.0.1) (2017-05-04)
+
+
+
+<a name="14.0.0"></a>
+# [14.0.0](https://github.com/ipfs/js-ipfs-api/compare/v13.0.0...v14.0.0) (2017-03-30)
+
+
+### Features
+
+* new peer-info ([#542](https://github.com/ipfs/js-ipfs-api/issues/542)) ([820150c](https://github.com/ipfs/js-ipfs-api/commit/820150c))
+* **pubsub:** Add pubsub api ([#493](https://github.com/ipfs/js-ipfs-api/issues/493)) ([d2eb925](https://github.com/ipfs/js-ipfs-api/commit/d2eb925))
+
+
+
+<a name="13.0.0"></a>
+# [13.0.0](https://github.com/ipfs/js-ipfs-api/compare/v12.1.7...v13.0.0) (2017-03-22)
+
+
+### Features
+
+* change window to self for webworker support ([e2e3213](https://github.com/ipfs/js-ipfs-api/commit/e2e3213))
+
+
+
 <a name="12.1.7"></a>
 ## [12.1.7](https://github.com/ipfs/js-ipfs-api/compare/v12.1.6...v12.1.7) (2017-02-09)
 
