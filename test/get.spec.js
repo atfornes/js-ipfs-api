@@ -25,12 +25,13 @@ if (isNode) {
   testfileBig = fs.createReadStream(tfbPath, { bufferSize: 128 })
 }
 
-describe('.get', () => {
+describe('.get', function () {
+  this.timeout(80 * 1000)
+
   let ipfs
   let fc
 
-  before(function (done) {
-    this.timeout(20 * 1000) // slow CI
+  before((done) => {
     fc = new FactoryClient()
     fc.spawnNode((err, node) => {
       expect(err).to.not.exist()
@@ -42,6 +43,8 @@ describe('.get', () => {
   after((done) => fc.dismantle(done))
 
   describe('Callback API', () => {
+    this.timeout(80 * 1000)
+
     it('add file for testing', (done) => {
       const expectedMultihash = 'Qma4hjFTnCasJ8PVp3mZbZK5g2vGDT4LByLJ7m8ciyRFZP'
 
@@ -156,9 +159,42 @@ describe('.get', () => {
         })
       })
     })
+
+    it('add path containing "+"s (for testing get)', (done) => {
+      if (!isNode) { return done() }
+      const filename = 'ti,c64x+mega++mod-pic.txt'
+      const subdir = 'tmp/c++files'
+      const expectedMultihash = 'QmPkmARcqjo5fqK1V1o8cFsuaXxWYsnwCNLJUYS4KeZyff'
+      ipfs.files.add([{
+        path: subdir + '/' + filename,
+        content: Buffer.from(subdir + '/' + filename, 'utf-8')
+      }], (err, res) => {
+        if (err) done(err)
+        expect(res[2].hash).to.equal(expectedMultihash)
+        done()
+      })
+    })
+
+    it('get path containing "+"s', (done) => {
+      if (!isNode) { return done() }
+      const multihash = 'QmPkmARcqjo5fqK1V1o8cFsuaXxWYsnwCNLJUYS4KeZyff'
+      let count = 0
+      ipfs.get(multihash, (err, files) => {
+        expect(err).to.not.exist()
+        files.on('data', (file) => {
+          if (file.path !== multihash) {
+            count++
+            expect(file.path).to.contain('+')
+            if (count === 2) done()
+          }
+        })
+      })
+    })
   })
 
   describe('Promise API', () => {
+    this.timeout(80 * 1000)
+
     it('get', (done) => {
       ipfs.get('Qma4hjFTnCasJ8PVp3mZbZK5g2vGDT4LByLJ7m8ciyRFZP')
         .then((files) => {
@@ -175,9 +211,9 @@ describe('.get', () => {
               })
           })
         })
-      .catch((err) => {
-        expect(err).to.not.exist()
-      })
+        .catch((err) => {
+          expect(err).to.not.exist()
+        })
     })
   })
 })

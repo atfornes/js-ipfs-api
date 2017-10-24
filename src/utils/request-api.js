@@ -15,6 +15,7 @@ const request = require('./request')
 
 function parseError (res, cb) {
   const error = new Error(`Server responded with ${res.statusCode}`)
+
   streamToJsonValue(res, (err, payload) => {
     if (err) {
       return cb(err)
@@ -47,6 +48,22 @@ function onRes (buffer, cb) {
     // Return a stream of JSON objects
     if (chunkedObjects && isJson) {
       const outputStream = pump(res, ndjson.parse())
+      // TODO: This needs reworking.
+      // this is a chicken and egg problem -
+      // 1) we can't get Trailer headers unless the response ends
+      // 2) we can't propagate the error, because the response stream
+      // is closed
+      // (perhaps we can workaround this using pull-streams)
+      res.on('end', () => {
+        let err = res.trailers['x-stream-error']
+        if (err) {
+          err = JSON.parse(err)
+          const error = new Error(`Server responded with 500`)
+          error.code = err.Code
+          error.message = err.Message
+          outputStream.destroy(error) // error is not going to be propagated
+        }
+      })
       return cb(null, outputStream)
     }
 
@@ -61,8 +78,8 @@ function onRes (buffer, cb) {
 }
 
 function requestAPI (config, options, callback) {
-  options.qs = options.qs || {}
   callback = once(callback)
+  options.qs = options.qs || {}
 
   if (Array.isArray(options.files)) {
     options.qs.recursive = true
@@ -79,6 +96,9 @@ function requestAPI (config, options, callback) {
   }
   if (options.files && !Array.isArray(options.files)) {
     options.files = [options.files]
+  }
+  if (options.progress) {
+    options.qs.progress = true
   }
 
   if (options.qs.r) {
@@ -151,7 +171,8 @@ function requestAPI (config, options, callback) {
     path: `${config['api-path']}${options.path}?${qs}`,
     port: config.port,
     method: method,
-    headers: headers
+    headers: headers,
+    protocol: `${config.protocol}:`
   }, onRes(options.buffer, callback))
 
   req.on('error', (err) => {
